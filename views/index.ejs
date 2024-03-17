@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Uploader</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="app">
+            <h1>Image Uploader <img src="assets/upload.png" alt="upload"></h1>
+            <form class="upload" action="/" method="POST" enctype="multipart/form-data">
+                <input type="file" name='file' required>
+                <button type="submit" class="upload-now">upload-now</button>
+            </form>
+            <h3>uploaded images</h3>
+            <div class="uploaded-images" id="output">
+                <div class="image" id="image"><img src="" alt=""></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script >
+
+const outputDiv = document.getElementById('output');
+let images = "<%=locals.images%>".split(",");
+let deletedImages = []
+
+if (images) {
+    images.forEach((image) => {
+        const img = new Image();
+        img.src = `http://localhost:3000/uploads/${image}`;
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";
+        span.className = image;
+
+        const imageContainer = document.createElement('div'); // Create a new div for the image container
+        imageContainer.classList.add('image'); // Add a class for styling
+        imageContainer.appendChild(span); // Append span to the container
+        imageContainer.appendChild(img); // Append the image to the container
+        outputDiv.appendChild(imageContainer); // Append the image container to the output div
+        console.log(outputDiv.innerHTML);
+    });
+}
+
+outputDiv.addEventListener("click", function(e){
+    if(e.target.tagName === "SPAN"){
+        deletedImages = [];
+        e.target.parentElement.remove();
+        deletedImages.push(e.target.className);
+
+        fetch('/delete', {
+            method: "POST",
+            headers: {
+            "Accept": "application/json, text/plain, */*",
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({deletedImages})
+        })
+    }
+}, false);
+
+
+</script>
+
+</html>
