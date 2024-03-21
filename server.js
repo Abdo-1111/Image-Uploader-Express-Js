@@ -34,7 +34,7 @@ app.post("/", upload.single('file'), (req, res) => {
 
 app.post("/delete" , (req,res) => {
     const deleteImages = req.body.deletedImages
-    if (deleteImages.length > 0){
+    if (deleteImages){
         deleteImages.forEach( image => {
         fs.unlink(`./public/uploads/${image}` , (err) => {
             if (err) {
