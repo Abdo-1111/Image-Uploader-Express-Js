@@ -14,33 +14,49 @@ const upload = require('./upload')
 
 
 app.get("/" , (req,res) => {
+    res.render("login")    
+})
+
+
+app.get("/app", (req,res) => {
     let images = []
-    fs.readdir("./public/uploads" , (err, files) => {
+    let key = req.query.key
+    console.log(key)
+    fs.readdir("./public/uploads/"+key, (err, files) => {
         if(!err){
             files.forEach(file => {
                 images.push(file)
             })
-            res.render("index", {images: images})
+            res.render("app", {images: images , key:key})
         } else{
-            return console.log(err)
+            fs.mkdir(path.join("./public/uploads", key),
+            (err) => {
+                if (err) {
+                    return console.error(err)
+                }
+                console.log('Directory created successfully!')
+            })
+            res.render("app", {images: images})
         }
-    })
+        })
+    
 })
 
-app.post("/", upload.single('file'), (req, res) => {
+app.post("/app", upload.single('file'), (req, res) => {
     console.log("Image Uploaded !!")
-    res.redirect("/")
+    res.redirect("/app?key="+req.body.key)
 })
 
 app.post("/delete" , (req,res) => {
     const deleteImages = req.body.deletedImages
+    const key = req.body.key_value
     if (deleteImages){
         deleteImages.forEach( image => {
-        fs.unlink(`./public/uploads/${image}` , (err) => {
+        fs.unlink(`./public/uploads/${key}/${image}` , (err) => {
             if (err) {
                 console.error(err)
               } else {
-                console.log(`File ${"./public/uploads/"+image} has been deleted.`)
+                console.log(`File ${"./public/uploads/"+key+"/"+image} has been deleted.`)
             }
         }) 
     })}

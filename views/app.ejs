@@ -10,8 +10,9 @@
     <div class="container">
         <div class="app">
             <h1>Image Uploader <img src="assets/upload.png" alt="upload"></h1>
-            <form class="upload" action="/" method="POST" enctype="multipart/form-data">
-                <input type="file" name='file' required>
+            <form class="upload" action="/app" method="POST" enctype="multipart/form-data">
+                <input name ="key" type="text" class="key">
+                <input type="file" name='file' class="image-upload" required multiple>
                 <button type="submit" class="upload-now">upload-now</button>
             </form>
             <h3>uploaded images</h3>
@@ -24,6 +25,20 @@
 
 <script >
 
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+
+const key = document.querySelector(".key");
+
+key.value = urlParams.get('key');
+
+key_value = urlParams.get('key');
+
+const upload_now = document.querySelector(".upload-now");
+const image_upload = document.querySelector(".image-upload");
+
 const outputDiv = document.getElementById('output');
 let images = "<%=locals.images%>".split(",");
 console.log(images)
@@ -32,7 +47,7 @@ let deletedImages = []
 if (images[0] !== ""){
     images.forEach((image) => {
         const img = new Image();
-        img.src = `http://localhost:3000/uploads/${image}`;
+        img.src = `http://localhost:3000/uploads/${key_value}/${image}`;
         let span = document.createElement("span");
         span.innerHTML = "\u00d7";
         span.className = image;
@@ -58,10 +73,17 @@ outputDiv.addEventListener("click", function(e){
             "Accept": "application/json, text/plain, */*",
             "Content-type": "application/json"
         },
-        body: JSON.stringify({deletedImages})
+        body: JSON.stringify({deletedImages,key_value})
         })
     }
 }, false);
+
+
+
+
+
+console.log(key.value);
+
 
 
 </script>

@@ -84,3 +84,7 @@
 .image span:hover {
     color: rgb(245, 74, 74);
 }
+
+.key {
+    display: none;
+}

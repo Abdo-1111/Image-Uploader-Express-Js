@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Uploader</title>
+</head>
+<body>
+    <div class="container">
+        <div class="app">
+            <div class="login">
+                <h1>Image upload</h1>
+                <form action="/app" method="GET" class="form">
+                <h3>Enter key to procced : </h3><input type="text" class="key" name="key" id="key">
+                <button type="submit" class="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    box-sizing: border-box;
+    }
+
+    .container{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(90deg, rgba(36,29,253,1) 8%, rgba(252,84,69,1) 100%);
+    padding: 10px;
+    position: relative;
+    }
+
+    .app{
+    width: 100%;
+    max-width: 700px;
+    min-height: 400px;
+    background: #fff;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+    }
+
+    .login{
+        text-align: center;
+    }
+
+
+    .form{
+        margin-top: 50px;
+        padding: 10px;
+    }
+    .key{
+        height: 20px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+        background-color: rgb(248, 128, 117);
+        margin-top: 20px;
+        margin-right: 20px;
+        padding: 15px 10px;
+        font-size: medium;
+    }
+    .submit{
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        padding: 5px;
+    }
+    .submit:hover{
+        background-color: rgb(248, 128, 117);
+    }
+</style>
+
+</html>
